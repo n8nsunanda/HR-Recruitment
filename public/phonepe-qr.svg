@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" rx="8"/>
+  <text x="100" y="95" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">Replace with</text>
+  <text x="100" y="115" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">PhonePe QR</text>
+  <rect x="70" y="130" width="60" height="60" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+</svg>
