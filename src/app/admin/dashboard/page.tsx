@@ -6,6 +6,7 @@ import type { CandidateStatus } from "@/types/candidate";
 
 interface CandidateWithId {
   rowIndex: number;
+  candidateId?: string;
   name: string;
   email: string;
   mobile: string;
@@ -210,6 +211,9 @@ export default function AdminDashboardPage() {
                 <thead className="bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 text-left font-medium text-slate-700">
+                      ID
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-700">
                       Name
                     </th>
                     <th className="px-4 py-3 text-left font-medium text-slate-700">
@@ -241,6 +245,7 @@ export default function AdminDashboardPage() {
                 <tbody className="divide-y divide-slate-100">
                   {filtered.map((c) => (
                     <tr key={c.rowIndex} className="hover:bg-slate-50/50">
+                      <td className="px-4 py-3 text-slate-600 text-sm">{c.candidateId ?? "—"}</td>
                       <td className="px-4 py-3 text-slate-800">{c.name}</td>
                       <td className="px-4 py-3 text-slate-600">{c.email}</td>
                       <td className="px-4 py-3 text-slate-600">{c.mobile}</td>

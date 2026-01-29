@@ -1,13 +1,16 @@
 /**
  * Google Sheets utility: append candidate, get all candidates, update row.
- * Sheet must have header row: Name | Email | Mobile | City | Resume Link | Status | HR Notes | Created Date
+ * Sheet columns (A–I): CandidateId, Name, Email, Mobile, City, ResumeLink, Status, HRNotes, CreatedAt
  */
 
 import { google } from "googleapis";
 import { getGoogleAuth } from "./google";
 import type { CandidateRow, CandidateStatus } from "@/types/candidate";
 
-const SHEET_NAME = "Candidates"; // or your sheet tab name
+// Tab name at the bottom of your Google Sheet (e.g. "Sheet1" or "Candidates"). Set via GOOGLE_SHEET_TAB_NAME.
+function getSheetTabName(): string {
+  return process.env.GOOGLE_SHEET_TAB_NAME || "Candidates";
+}
 
 function getSheetId(): string {
   const id = process.env.GOOGLE_SHEET_ID;
@@ -15,29 +18,34 @@ function getSheetId(): string {
   return id;
 }
 
+// Your sheet: A=CandidateId, B=Name, C=Email, D=Mobile, E=City, F=ResumeLink, G=Status, H=HRNotes, I=CreatedAt
 function rowToCandidateRow(values: string[]): CandidateRow {
   return {
-    name: values[0] ?? "",
-    email: values[1] ?? "",
-    mobile: values[2] ?? "",
-    city: values[3] ?? "",
-    resumeLink: values[4] ?? "",
-    status: (values[5] ?? "New") as CandidateStatus,
-    hrNotes: values[6] ?? "",
-    createdAt: values[7] ?? "",
+    candidateId: values[0] ?? "",
+    name: values[1] ?? "",
+    email: values[2] ?? "",
+    mobile: values[3] ?? "",
+    city: values[4] ?? "",
+    resumeLink: values[5] ?? "",
+    status: (values[6] ?? "New") as CandidateStatus,
+    hrNotes: values[7] ?? "",
+    createdAt: values[8] ?? "",
   };
 }
 
-/** Append one candidate row to the sheet. */
+/** Append one candidate row to the sheet (9 columns A:I). */
 export async function appendCandidateToSheets(
   row: CandidateRow
 ): Promise<void> {
   const auth = getGoogleAuth();
   const sheets = google.sheets({ version: "v4", auth });
   const spreadsheetId = getSheetId();
+  const sheetName = getSheetTabName();
 
+  const candidateId = row.candidateId ?? `CAND-${Date.now()}`;
   const values = [
     [
+      candidateId,
       row.name,
       row.email,
       row.mobile,
@@ -49,9 +57,10 @@ export async function appendCandidateToSheets(
     ],
   ];
 
+  const range = `${sheetName}!A:I`;
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: `${SHEET_NAME}!A:H`,
+    range,
     valueInputOption: "USER_ENTERED",
     insertDataOption: "INSERT_ROWS",
     requestBody: { values },
@@ -65,10 +74,12 @@ export async function getCandidatesFromSheets(): Promise<
   const auth = getGoogleAuth();
   const sheets = google.sheets({ version: "v4", auth });
   const spreadsheetId = getSheetId();
+  const sheetName = getSheetTabName();
 
+  const range = `${sheetName}!A:I`;
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
-    range: `${SHEET_NAME}!A:H`,
+    range,
   });
 
   const rows = (res.data.values as string[][]) ?? [];
@@ -82,7 +93,7 @@ export async function getCandidatesFromSheets(): Promise<
   }));
 }
 
-/** Update status and/or HR notes for a row by 1-based row index. */
+/** Update status (G) and/or HR notes (H) for a row by 1-based row index. */
 export async function updateCandidateInSheets(
   rowIndex: number,
   updates: { status?: CandidateStatus; hrNotes?: string }
@@ -90,17 +101,18 @@ export async function updateCandidateInSheets(
   const auth = getGoogleAuth();
   const sheets = google.sheets({ version: "v4", auth });
   const spreadsheetId = getSheetId();
+  const sheetName = getSheetTabName();
 
   const updatesList: { range: string; values: string[][] }[] = [];
   if (updates.status !== undefined) {
     updatesList.push({
-      range: `${SHEET_NAME}!F${rowIndex}`,
+      range: `${sheetName}!G${rowIndex}`,
       values: [[updates.status]],
     });
   }
   if (updates.hrNotes !== undefined) {
     updatesList.push({
-      range: `${SHEET_NAME}!G${rowIndex}`,
+      range: `${sheetName}!H${rowIndex}`,
       values: [[updates.hrNotes]],
     });
   }

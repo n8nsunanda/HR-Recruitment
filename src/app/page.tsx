@@ -69,6 +69,75 @@ export default function HomePage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-10">
+        {/* Consultant Information Card – top */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="px-6 py-5 border-b border-slate-100 bg-primary-50/50">
+            <h2 className="text-lg font-semibold text-slate-800">
+              Recruitment & Interview Support – Consultant Services
+            </h2>
+          </div>
+          <div className="p-6 space-y-4 text-slate-700 text-sm">
+            <p>
+              I am an independent recruitment consultant. I provide interview opportunities, job referrals, CV circulation, and LinkedIn job applications support based on candidate profile and experience.
+            </p>
+            <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 space-y-3">
+              <h3 className="font-semibold text-slate-800">Charges</h3>
+              <div className="space-y-2">
+                <div className="flex flex-wrap gap-x-2">
+                  <span className="font-medium text-slate-800">Registration Fee: ₹1000 (Non-Refundable)</span>
+                </div>
+                <ul className="list-disc list-inside text-slate-600 space-y-0.5 ml-2">
+                  <li>₹500 → CV processing, LinkedIn job applications & lead sharing</li>
+                  <li>₹500 → Interview scheduling & negotiation support</li>
+                </ul>
+                <div className="pt-1">
+                  <span className="font-medium text-slate-800">After Selection:</span>
+                  <span className="ml-1 text-slate-600">25% of first salary (after receiving the first salary)</span>
+                </div>
+              </div>
+            </div>
+            <ul className="list-disc list-inside text-slate-600 space-y-0.5">
+              <li>Charges are negotiable</li>
+              <li>Please check LinkedIn recommendations</li>
+              <li>CV circulation depends on profile quality</li>
+              <li>Registration fee is non-refundable</li>
+              <li>I will apply from my side, but selection depends on candidate CV</li>
+            </ul>
+            <p className="text-slate-600 italic border-l-2 border-primary-300 pl-3">
+              This fee is for my professional work effort and services.
+            </p>
+          </div>
+        </section>
+
+        {/* Pay Registration Fee – top */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+            <h2 className="text-lg font-semibold text-slate-800">
+              Pay Registration Fee
+            </h2>
+          </div>
+          <div className="p-6 flex flex-col sm:flex-row items-center gap-6">
+            <div className="flex-shrink-0 w-48 h-48 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center overflow-hidden">
+              <Image
+                src="/phone-pe-img.png"
+                alt="PhonePe QR Code"
+                width={180}
+                height={180}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+            <div className="text-center sm:text-left space-y-2">
+              <p className="font-medium text-slate-800">
+                Scan the QR code to pay registration fees
+              </p>
+              <p className="text-sm text-slate-500">
+                Payment confirmation may be requested by HR.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Candidate Registration Form */}
         <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
@@ -171,76 +240,6 @@ export default function HomePage() {
               </button>
             </div>
           </form>
-        </section>
-
-        {/* Consultant Information Card */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="px-6 py-5 border-b border-slate-100 bg-primary-50/50">
-            <h2 className="text-lg font-semibold text-slate-800">
-              Recruitment & Interview Support – Consultant Services
-            </h2>
-          </div>
-          <div className="p-6 space-y-4 text-slate-700 text-sm">
-            <p>
-              I am an independent recruitment consultant. I provide interview opportunities, job referrals, CV circulation, and LinkedIn job applications support based on candidate profile and experience.
-            </p>
-            <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 space-y-3">
-              <h3 className="font-semibold text-slate-800">Charges</h3>
-              <div className="space-y-2">
-                <div className="flex flex-wrap gap-x-2">
-                  <span className="font-medium text-slate-800">Registration Fee: ₹1000 (Non-Refundable)</span>
-                </div>
-                <ul className="list-disc list-inside text-slate-600 space-y-0.5 ml-2">
-                  <li>₹500 → CV processing, LinkedIn job applications & lead sharing</li>
-                  <li>₹500 → Interview scheduling & negotiation support</li>
-                </ul>
-                <div className="pt-1">
-                  <span className="font-medium text-slate-800">After Selection:</span>
-                  <span className="ml-1 text-slate-600">25% of first salary (after receiving the first salary)</span>
-                </div>
-              </div>
-            </div>
-            <ul className="list-disc list-inside text-slate-600 space-y-0.5">
-              <li>Charges are negotiable</li>
-              <li>Please check LinkedIn recommendations</li>
-              <li>CV circulation depends on profile quality</li>
-              <li>Registration fee is non-refundable</li>
-              <li>I will apply from my side, but selection depends on candidate CV</li>
-            </ul>
-            <p className="text-slate-600 italic border-l-2 border-primary-300 pl-3">
-              This fee is for my professional work effort and services.
-            </p>
-          </div>
-        </section>
-
-        {/* PhonePe Payment Section */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-            <h2 className="text-lg font-semibold text-slate-800">
-              Pay Registration Fee
-            </h2>
-          </div>
-          <div className="p-6 flex flex-col sm:flex-row items-center gap-6">
-            <div className="flex-shrink-0 w-48 h-48 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center overflow-hidden">
-              {/* Replace with your actual PhonePe QR image (e.g. phonepe-qr.png) */}
-              <Image
-                src="/phonepe-qr.svg"
-                alt="PhonePe QR Code"
-                width={180}
-                height={180}
-                className="object-contain"
-                unoptimized
-              />
-            </div>
-            <div className="text-center sm:text-left space-y-2">
-              <p className="font-medium text-slate-800">
-                Scan the QR code to pay registration fees
-              </p>
-              <p className="text-sm text-slate-500">
-                Payment confirmation may be requested by HR.
-              </p>
-            </div>
-          </div>
         </section>
       </main>
 

@@ -64,17 +64,18 @@ Or copy **BLOB_READ_WRITE_TOKEN** from Vercel Dashboard → Project → Settings
 ## 6. Google Sheet – Candidate Data
 
 1. Create a new Google Sheet.
-2. Rename the first tab to **Candidates** (or change `SHEET_NAME` in `src/lib/sheets.ts` to match).
+2. Use the **exact tab name** shown at the bottom of the sheet (e.g. **Sheet1** or **Candidates**). Set `GOOGLE_SHEET_TAB_NAME` in your env to match (e.g. `GOOGLE_SHEET_TAB_NAME=Sheet1`). If you omit it, the app assumes **Candidates**.
 3. In the first row, add exactly these headers (order matters):
 
-   | A     | B     | C      | D    | E            | F      | G        | H            |
-   |-------|-------|--------|------|--------------|--------|----------|--------------|
-   | Name  | Email | Mobile | City | Resume Link  | Status | HR Notes | Created Date |
+   | A           | B     | C     | D      | E    | F           | G      | H        | I           |
+   |-------------|-------|-------|--------|------|-------------|--------|----------|-------------|
+   | CandidateId | Name  | Email | Mobile | City | ResumeLink  | Status | HRNotes  | CreatedAt   |
 
 4. Share the sheet with the **Service Account email** (from the JSON: `client_email`) with **Editor** access.
 5. Copy the **Sheet ID** from the URL:  
    `https://docs.google.com/spreadsheets/d/SHEET_ID/edit`
 6. Set `GOOGLE_SHEET_ID=SHEET_ID` in your env.
+7. Set `GOOGLE_SHEET_TAB_NAME` to the **exact** tab name (e.g. `Sheet1` or `Candidates`). If the tab is "Sheet1", use `GOOGLE_SHEET_TAB_NAME=Sheet1`.
 
 ---
 
@@ -83,9 +84,10 @@ Or copy **BLOB_READ_WRITE_TOKEN** from Vercel Dashboard → Project → Settings
 | Variable                      | Description                                  |
 |------------------------------|----------------------------------------------|
 | `ADMIN_PASSWORD`             | Password for admin dashboard login           |
-| `BLOB_READ_WRITE_TOKEN`      | From Vercel Blob store (auto-added on Vercel)|
+| `BLOB_READ_WRITE_TOKEN`      | From Vercel Blob store – **must be all caps** (auto-added on Vercel) |
 | `GOOGLE_SERVICE_ACCOUNT_JSON`| Full JSON key (single line)                  |
 | `GOOGLE_SHEET_ID`            | Google Sheet ID for candidate data           |
+| `GOOGLE_SHEET_TAB_NAME`      | Tab name at bottom of sheet (e.g. `Sheet1` or `Candidates`). Default: Candidates |
 
 ---
 
@@ -102,5 +104,5 @@ Not implemented in this starter. To add later:
 
 - **Blob upload fails / "token" error:** Ensure `BLOB_READ_WRITE_TOKEN` is set. On Vercel, connect a Blob store; locally, run `vercel env pull .env.local` or copy the token from Vercel.
 - **403 / Permission denied (Sheets):** Ensure the Service Account email has **Editor** access on the Google Sheet.
-- **404 Sheet:** Check that the tab name is **Candidates** (or matches `SHEET_NAME` in code) and the sheet is shared with the SA.
+- **"Unable to parse range: Candidates!A:H" / 404 Sheet:** Set `GOOGLE_SHEET_TAB_NAME` to the **exact** name of the tab at the bottom of your sheet (e.g. `Sheet1` or `Candidates`). Ensure the sheet is shared with the Service Account.
 - **Invalid JSON:** Ensure `GOOGLE_SERVICE_ACCOUNT_JSON` is valid JSON (prefer copy-paste from the downloaded file).

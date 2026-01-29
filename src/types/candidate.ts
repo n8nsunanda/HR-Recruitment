@@ -9,8 +9,9 @@ export type CandidateStatus =
   | "Selected"
   | "Rejected";
 
-/** One row in Google Sheet (same order as sheet columns). */
+/** One row in Google Sheet. Columns: CandidateId, Name, Email, Mobile, City, ResumeLink, Status, HRNotes, CreatedAt */
 export interface CandidateRow {
+  candidateId?: string;
   name: string;
   email: string;
   mobile: string;
