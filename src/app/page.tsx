@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { AdSenseBlock } from "@/components/AdSense";
 
 interface Recommendation {
   author: string;
@@ -225,7 +226,13 @@ export default function HomePage() {
         </section>
       )}
 
-      <main className="max-w-4xl mx-auto px-4 py-8 space-y-10">
+      <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-6">
+        <aside className="hidden lg:block w-72 flex-shrink-0 order-2 lg:order-1">
+          <div className="lg:sticky lg:top-24">
+            <AdSenseBlock slotId={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEFT} />
+          </div>
+        </aside>
+        <main className="flex-1 min-w-0 max-w-4xl mx-auto lg:mx-0 space-y-10 order-1 lg:order-2">
         {/* Consultant Information Card – content from sheet (ConsultantInfo tab) or fallback */}
         <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="px-6 py-5 border-b border-slate-100 bg-primary-50/50">
@@ -475,9 +482,21 @@ export default function HomePage() {
             </div>
           </form>
         </section>
-      </main>
+        </main>
+        <aside className="hidden lg:block w-72 flex-shrink-0 order-3">
+          <div className="lg:sticky lg:top-24">
+            <AdSenseBlock slotId={process.env.NEXT_PUBLIC_ADSENSE_SLOT_RIGHT} />
+          </div>
+        </aside>
+      </div>
 
-      <footer className="border-t border-slate-200 mt-12 py-6 text-center text-sm text-slate-500">
+      <div className="w-full border-t border-slate-200 pt-6 pb-2">
+        <div className="max-w-4xl mx-auto px-4 flex justify-center">
+          <AdSenseBlock slotId={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM} />
+        </div>
+      </div>
+
+      <footer className="border-t border-slate-200 mt-6 py-6 text-center text-sm text-slate-500">
         HR Recruitment & Consultant Services
       </footer>
     </div>
