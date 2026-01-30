@@ -1,6 +1,6 @@
 /**
  * POST /api/update-candidate
- * Admin only. Body: { rowIndex: number, status?: string, hrNotes?: string }
+ * Admin only. Body: { rowIndex: number, status?: string, hrNotes?: string, payment?: string }
  * Updates the row in Google Sheets.
  */
 
@@ -15,6 +15,7 @@ const VALID_STATUSES: CandidateStatus[] = [
   "Interview Scheduled",
   "Selected",
   "Rejected",
+  "Old",
 ];
 
 export async function POST(request: Request) {
@@ -37,13 +38,15 @@ export async function POST(request: Request) {
         : undefined;
     const hrNotes =
       typeof body.hrNotes === "string" ? body.hrNotes : undefined;
-    if (status === undefined && hrNotes === undefined) {
+    const payment =
+      typeof body.payment === "string" ? body.payment : undefined;
+    if (status === undefined && hrNotes === undefined && payment === undefined) {
       return NextResponse.json(
-        { error: "Provide status and/or hrNotes to update." },
+        { error: "Provide status, hrNotes and/or payment to update." },
         { status: 400 }
       );
     }
-    await updateCandidateInSheets(rowIndex, { status, hrNotes });
+    await updateCandidateInSheets(rowIndex, { status, hrNotes, payment });
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("update-candidate error:", err);

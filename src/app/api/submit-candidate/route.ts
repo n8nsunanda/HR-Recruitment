@@ -1,6 +1,6 @@
 /**
  * POST /api/submit-candidate
- * Multipart: fullName, email, mobile, city (optional), resume (file PDF/DOCX).
+ * Multipart: fullName, email, mobile, city (optional), experience (optional), shortNote (optional), skills (optional), resume (file PDF/DOCX).
  * Uploads resume to Vercel Blob, appends row to Google Sheets.
  */
 
@@ -11,6 +11,11 @@ import {
   RESUME_MIME_TYPES,
 } from "@/lib/blob";
 import { appendCandidateToSheets } from "@/lib/sheets";
+import {
+  sanitizeTextForSheet,
+  MAX_SHORT_NOTE,
+  MAX_SKILLS,
+} from "@/lib/sanitize";
 import type { CandidateRow } from "@/types/candidate";
 
 const ALLOWED_MIME = new Set(RESUME_MIME_TYPES);
@@ -22,6 +27,9 @@ export async function POST(request: Request) {
     const email = formData.get("email") as string | null;
     const mobile = formData.get("mobile") as string | null;
     const city = (formData.get("city") as string | null) ?? "";
+    const experience = (formData.get("experience") as string | null) ?? "";
+    const shortNote = (formData.get("shortNote") as string | null) ?? "";
+    const skills = (formData.get("skills") as string | null) ?? "";
     const file = formData.get("resume") as File | null;
 
     if (!fullName?.trim() || !email?.trim() || !mobile?.trim()) {
@@ -48,6 +56,10 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const { url } = await uploadResumeToBlob(buffer, file.name, mimeType);
 
+    // Sanitize and enforce length for shortNote and skills (no HTML, URLs, file paths)
+    const safeShortNote = sanitizeTextForSheet(shortNote, MAX_SHORT_NOTE);
+    const safeSkills = sanitizeTextForSheet(skills, MAX_SKILLS);
+
     const row: CandidateRow = {
       name: fullName.trim(),
       email: email.trim(),
@@ -57,6 +69,10 @@ export async function POST(request: Request) {
       status: "New",
       hrNotes: "",
       createdAt: new Date().toISOString(),
+      payment: "",
+      experience: experience.trim().slice(0, 50),
+      shortNote: safeShortNote,
+      skills: safeSkills,
     };
     await appendCandidateToSheets(row);
 

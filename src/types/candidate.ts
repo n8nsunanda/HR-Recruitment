@@ -7,9 +7,10 @@ export type CandidateStatus =
   | "CV Shared"
   | "Interview Scheduled"
   | "Selected"
-  | "Rejected";
+  | "Rejected"
+  | "Old";
 
-/** One row in Google Sheet. Columns: CandidateId, Name, Email, Mobile, City, ResumeLink, Status, HRNotes, CreatedAt */
+/** One row in Google Sheet. Columns: CandidateId, Name, Email, Mobile, City, Experience, Skills, ShortNote, ResumeLink, Status, HRNotes, CreatedAt, Payment */
 export interface CandidateRow {
   candidateId?: string;
   name: string;
@@ -20,6 +21,10 @@ export interface CandidateRow {
   status: CandidateStatus;
   hrNotes: string;
   createdAt: string;
+  payment: string;
+  experience: string;
+  shortNote: string;
+  skills: string;
 }
 
 /** For API responses – row index used for updates. */
@@ -33,6 +38,9 @@ export interface SubmitCandidatePayload {
   email: string;
   mobile: string;
   city?: string;
+  experience?: string;
+  shortNote?: string;
+  skills?: string;
 }
 
 /** Payload for POST /api/update-candidate. */
@@ -40,4 +48,5 @@ export interface UpdateCandidatePayload {
   rowIndex: number;
   status?: CandidateStatus;
   hrNotes?: string;
+  payment?: string;
 }
